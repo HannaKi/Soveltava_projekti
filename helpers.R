@@ -36,6 +36,7 @@ readUrl <- function(url) {
       message(cond)
       # Choose a return value in case of error
       return(NA)
+      # TODO: in case of error, read latest downlaoded data
     },
     warning=function(cond) {
       message(paste("URL caused a warning:", url))
@@ -72,5 +73,5 @@ if(is_empty(fin)) { stop(paste0("Error: Data for Finland not found")) }
 fin <- mydata[ , fin,  drop=FALSE]
 colnames(fin) <- c("Date", "Cases", "Deaths", "Recovered")
 
-ggplot(fin, aes(x=fin$Date, y=fin$Cases)) +
-  geom_line()
+# ggplot(fin, aes(x=fin$Date, y=fin$Cases)) +
+#   geom_line()

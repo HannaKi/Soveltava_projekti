@@ -5,17 +5,10 @@ if(!require(stringr)) install.packages("stringr")
 if(!require(tidyverse)) install.packages("tidyverse")
 if(!require(ggplot2)) install.packages("ggplot2")
 
-# library(readr)
-# library(stringr)
-# library(tidyverse)
-
 # Download data 
-# instruction: https://rpubs.com/lokraj/github_csv
 
 urlfile="https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"
 # mydata <- readr::read_csv(url(urlfile))
-# 
-# urli <- c("https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv")
 
 readUrl <- function(url) {
   out <- tryCatch(

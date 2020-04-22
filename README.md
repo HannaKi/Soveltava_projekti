@@ -1,4 +1,4 @@
-# Soveltava_projekti_tyo
+# Soveltava projekti: 
 
 Input data is obtained from the nCoV_tracker github page. (link)
 

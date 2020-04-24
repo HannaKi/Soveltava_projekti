@@ -1,18 +1,10 @@
 if(!require(shiny)) install.packages("shiny")
-if(!require(here)) install.packages("here")
 if(!require(readr)) install.packages("readr")
 if(!require(stringr)) install.packages("stringr")
 if(!require(tidyverse)) install.packages("tidyverse")
 if(!require(ggplot2)) install.packages("ggplot2")
 if(!require(dplyr)) install.packages("dplyr")
 if(!require(tidyr)) install.packages("tidyr")
-
-library(plotly)
-palette(c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3",
-          "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"))
-
-# call helpers.R to gain data
-source(here("helpers.R"))
 
 # Build app
 ui <- fluidPage(
@@ -28,18 +20,16 @@ ui <- fluidPage(
     ),
   
   # Sidebar - input
-    
   sidebarPanel(
-    selectizeInput("metrics",
-                   "Select case:",
-                   choices = c("Cases", 
-                               "Deaths",
-                               "Recovered"),
-                   selected = "Cases",
-                   multiple = TRUE
-    )
+
+    checkboxGroupInput("metrics",
+                       "Select case:",
+                       choices = c("Confirmed cases", 
+                                   "Deaths",
+                                   "Recovered"),
+                       selected = "Confirmed cases"
+     )
   ),
-  
   
   # Plot - output
   mainPanel(
@@ -56,6 +46,7 @@ server <- function(input, output) {
   
   urlfile="https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"
 
+  # function with try-cath to read the url
   readUrl <- function(url) {
     out <- tryCatch(
       {
@@ -93,27 +84,22 @@ server <- function(input, output) {
   nordics <- str_detect(colnames(mydata), "Date|Finland.|Sweden.|Iceland.|Norway.|Denmark.")
   fin <- str_detect(colnames(mydata), "Date|Finland.")
   if(is_empty(fin)) { stop(paste0("Error: Data for Finland not found")) }
-  
   # then use gained binary vector to select desired columns from the data
   nordics <- mydata[ , nordics,  drop=FALSE]
   fin <- mydata[ , fin,  drop=FALSE]
-  colnames(fin) <- c("Date", "Cases", "Deaths", "Recovered")
+  colnames(fin) <- c("Date", "Confirmed cases", "Deaths", "Recovered")
   # from wide to long format
-  # fin <- gather(fin, condition, nums, Confirmed:Recovered)
-  
+  fin <- reshape2::melt(fin, id.vars = 'Date')
   
   # https://stackoverflow.com/questions/45286622/plotting-multiple-lines-on-a-single-graph-using-shiny-and-ggplot2
   output$plot = renderPlot({
-    #plot.data <- fin
-    fin <- melt(fin, id.vars = 'Date')
-    #not sure if input$cnt is a list or a vector
-    #may need to manipulate that before passing
+    # list of input values to vector
     vals <- unlist(input$metrics, use.names=FALSE)
     fin <- fin[fin$variable %in% vals, ]
     ggplot(fin) +
       geom_line(mapping = aes(x = Date, y = value, colour = variable)) + 
-      labs (x = "Years", y = "Nights spent per 1000", title = "Tourism") + 
-      scale_colour_discrete(name = "Country")
+      labs (x = "Date", y = "", title = "Corona cases in Finland") + 
+      scale_colour_discrete(name = "")
   })
 }
 

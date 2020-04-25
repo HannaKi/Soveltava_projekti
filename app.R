@@ -1,35 +1,30 @@
-if(!require(shiny)) install.packages("shiny")
-if(!require(readr)) install.packages("readr")
-if(!require(stringr)) install.packages("stringr")
-if(!require(tidyverse)) install.packages("tidyverse")
-if(!require(ggplot2)) install.packages("ggplot2")
-if(!require(dplyr)) install.packages("dplyr")
-if(!require(tidyr)) install.packages("tidyr")
+library(shiny)
+library(readr)
+library(stringr)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(ggthemes)
+library(shinythemes)
 
-# Build app
-ui <- fluidPage(
-  
-  
+# Build app and set theme for it
+ui <- fluidPage(theme = shinytheme("spacelab"),
+          
   # HTML content made with Shiny tags
-  h1(style = "font-family:Impact",
-     "Yet another corona stat"),
-  p(style = "font-family:Impact",
-    "See other apps in the",
-    a("Shiny Showcase",
-      href = "http://www.rstudio.com/
-      products/shiny/shiny-user-showcase/")
-    ),
+  h2("Yksi koronastatistiikka lisää..."),
 
+  # Menu - input
+  
   fluidRow(
     column(
       width=12,
       checkboxGroupInput("metrics",
-                         label = h5("Select case:", style = ("font-family:Impact")),
-                         
-                         choices = c("Confirmed cases", 
-                                     "Deaths",
-                                     "Recovered"), 
-                         selected = "Confirmed cases",
+                         label = h5("Valitse tapaustyyppi:"),
+                         choices = c("Vahvistetut tapaukset", 
+                                     "Kuolleet",
+                                     "Parantuneet"), 
+                         selected = "Vahvistetut tapaukset",
                          inline = TRUE,
                          width="100%"
       )
@@ -42,21 +37,29 @@ ui <- fluidPage(
     column(
       width=12,
     plotOutput('plot')
-  )),
+    )
+  ),
   
   # Footer
+  
   fluidRow(
     column(
       width=12,
-  a("Data source",
-    href = "http://www.rstudio.com/
-    products/shiny/shiny-user-showcase/")
-  
+      p(),
+      a("Datan lähde",
+        href = "https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"),
+      p(),
+      a("Katso koodi GitHubista",
+        href = "https://github.com/HannaKi/Soveltava_projekti_tyo")
     )
+  
   )
-  )
+)
+  
 
 server <- function(input, output) {
+  
+  # Read data in
   
   urlfile="https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"
 
@@ -93,6 +96,8 @@ server <- function(input, output) {
   
   mydata <- readUrl(urlfile)
   
+  # Data manipulation:
+  
   # Select columns using partial match
   # first use regex to form binary vector. Regex details: https://stringr.tidyverse.org/articles/regular-expressions.html
   nordics <- str_detect(colnames(mydata), "Date|Finland.|Sweden.|Iceland.|Norway.|Denmark.")
@@ -101,19 +106,24 @@ server <- function(input, output) {
   # then use gained binary vector to select desired columns from the data
   nordics <- mydata[ , nordics,  drop=FALSE]
   fin <- mydata[ , fin,  drop=FALSE]
-  colnames(fin) <- c("Date", "Confirmed cases", "Deaths", "Recovered")
+  colnames(fin) <- c("Date", "Vahvistetut tapaukset", "Kuolleet", "Parantuneet")
   # from wide to long format
   fin <- reshape2::melt(fin, id.vars = 'Date')
   
-  # https://stackoverflow.com/questions/45286622/plotting-multiple-lines-on-a-single-graph-using-shiny-and-ggplot2
+  # Build output 
+  
   output$plot = renderPlot({
-    # list of input values to vector
+    # set ggplot theme. ggplot does NOT follow shiny theme set at UI!
+    #theme_set(theme_minimal())
+    # list of input values has to be vector
     vals <- unlist(input$metrics, use.names=FALSE)
     fin <- fin[fin$variable %in% vals, ]
+    # ggplot 
     ggplot(fin) +
-      geom_line(mapping = aes(x = Date, y = value, colour = variable)) + 
-      labs (x = "Date", y = "", title = "Corona cases in Finland") + 
-      scale_colour_discrete(name = "")
+      geom_line(mapping = aes(x = Date, y = value, colour = variable),size=1) + 
+      labs (x = "", y = "", title = "Tilastoidut Covid-19 -tapaukset Suomessa") + 
+      scale_colour_discrete(name = "") +
+      theme_fivethirtyeight()
   })
 }
 

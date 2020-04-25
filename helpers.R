@@ -6,9 +6,14 @@ if(!require(tidyverse)) install.packages("tidyverse")
 if(!require(ggplot2)) install.packages("ggplot2")
 library(reshape2)
 
-# Download data 
+# Download data. NOTE! Fethc raw format
 
 urlfile="https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"
+
+
+urlconfirmed <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+urldeath <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+urlrecovered <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
 # mydata <- readr::read_csv(url(urlfile))
 
 readUrl <- function(url) {
@@ -59,6 +64,22 @@ readUrl <- function(url) {
   )    
   return(out)
 }
+
+confirmed <- readUrl(urlconfirmed)
+dead <- readUrl(urldeath)
+recovered <- readUrl(urlrecovered)
+
+
+nor <- c("Finland", "Sweden", "Iceland", "Norway", "Denmark")
+
+confirmed <- confirmed %>% filter(`Country/Region` %in% nor) %>% mutate(Case = "Confirmed")
+dead <- dead %>% filter(`Country/Region` %in% nor) %>% mutate(Case = "Dead")
+recovered <- recovered %>% filter(`Country/Region` %in% nor) %>% mutate(Case = "Recovered")
+
+dat <- bind_rows(confirmed, recovered, dead)
+
+
+fin <- reshape2::melt(fin, id.vars = 'Date')
 
 mydata <- readUrl(urlfile)
 

@@ -1,12 +1,11 @@
 library(shiny)
-library(readr)
 library(stringr)
-library(tidyverse)
-library(dplyr)
 library(ggplot2)
-library(tidyr)
 library(ggthemes)
 library(shinythemes)
+#library(tidyverse)
+#library(dplyr)
+#library(tidyr)
 
 # Build app and set theme for it
 ui <- fluidPage(theme = shinytheme("spacelab"),
@@ -52,7 +51,6 @@ ui <- fluidPage(theme = shinytheme("spacelab"),
       a("Katso koodi GitHubista",
         href = "https://github.com/HannaKi/Soveltava_projekti_tyo")
     )
-  
   )
 )
   
@@ -100,9 +98,11 @@ server <- function(input, output) {
   
   # Select columns using partial match
   # first use regex to form binary vector. Regex details: https://stringr.tidyverse.org/articles/regular-expressions.html
-  nordics <- str_detect(colnames(mydata), "Date|Finland.|Sweden.|Iceland.|Norway.|Denmark.")
-  fin <- str_detect(colnames(mydata), "Date|Finland.")
-  if(is_empty(fin)) { stop(paste0("Error: Data for Finland not found")) }
+  nordics <- stringr::str_detect(colnames(mydata), "Date|Finland.|Sweden.|Iceland.|Norway.|Denmark.")
+  fin <- stringr::str_detect(colnames(mydata), "Date|Finland.")
+  if(rlang::is_empty(fin)) { 
+    stop(paste0("Error: Data for Finland not found")) 
+    }
   # then use gained binary vector to select desired columns from the data
   nordics <- mydata[ , nordics,  drop=FALSE]
   fin <- mydata[ , fin,  drop=FALSE]

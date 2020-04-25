@@ -9,6 +9,7 @@ if(!require(tidyr)) install.packages("tidyr")
 # Build app
 ui <- fluidPage(
   
+  
   # HTML content made with Shiny tags
   h1(style = "font-family:Impact",
      "Yet another corona stat"),
@@ -18,27 +19,40 @@ ui <- fluidPage(
       href = "http://www.rstudio.com/
       products/shiny/shiny-user-showcase/")
     ),
-  
-  # Sidebar - input
-  sidebarPanel(
 
-    checkboxGroupInput("metrics",
-                       "Select case:",
-                       choices = c("Confirmed cases", 
-                                   "Deaths",
-                                   "Recovered"),
-                       selected = "Confirmed cases"
-     )
+  fluidRow(
+    column(
+      width=12,
+      checkboxGroupInput("metrics",
+                         label = h5("Select case:", style = ("font-family:Impact")),
+                         
+                         choices = c("Confirmed cases", 
+                                     "Deaths",
+                                     "Recovered"), 
+                         selected = "Confirmed cases",
+                         inline = TRUE,
+                         width="100%"
+      )
+    )
   ),
   
   # Plot - output
-  mainPanel(
-    plotOutput('plot'),
+
+  fluidRow(
+    column(
+      width=12,
+    plotOutput('plot')
+  )),
   
   # Footer
+  fluidRow(
+    column(
+      width=12,
   a("Data source",
     href = "http://www.rstudio.com/
     products/shiny/shiny-user-showcase/")
+  
+    )
   )
   )
 

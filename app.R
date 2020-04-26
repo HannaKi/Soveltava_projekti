@@ -3,7 +3,8 @@ library(stringr)
 library(ggplot2)
 library(ggthemes)
 library(shinythemes)
-#library(tidyverse)
+library(roxygen2)
+library(tidyverse)
 #library(dplyr)
 #library(tidyr)
 
@@ -61,7 +62,13 @@ server <- function(input, output) {
   
   urlfile="https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"
 
-  # function with try-cath to read the url
+  #' Function with try-cath to read a raw csv table from url
+  #'
+  #' @param url 
+  #'
+  #' @return csv table as a dataframe
+  #'
+  #' 
   readUrl <- function(url) {
     out <- tryCatch(
       {

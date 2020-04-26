@@ -8,7 +8,7 @@ library(reshape2)
 
 # setwd needed for devtools::document() to work!
 # This is NOT good practice!
-setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
+# setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
 
 source("readUrl.R")
 

@@ -1,0 +1,12 @@
+name: Suomen_koronatilastot
+title: Suomen_koronatilastot
+username:
+account: hrkshiny
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2189594
+bundleId: 3067974
+url: https://hrkshiny.shinyapps.io/Suomen_koronatilastot/
+when: 1587924961.53526
+asMultiple: FALSE
+asStatic: FALSE

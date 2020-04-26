@@ -9,7 +9,7 @@ library(rlang)
 
 # setwd needed for devtools::document() and devtools::check to work in IDE!
 # This is NOT good practice at all!
-setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
+# setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
 
 source("readUrl.R")
 

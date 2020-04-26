@@ -5,9 +5,10 @@ library(ggplot2)
 library(ggthemes)
 library(shinythemes)
 library(reshape2)
+library(rlang)
 
-# setwd needed for devtools::document() to work!
-# This is NOT good practice!
+# setwd needed for devtools::document() and devtools::check to work in IDE!
+# This is NOT good practice at all!
 # setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
 
 source("readUrl.R")
@@ -16,7 +17,7 @@ source("readUrl.R")
 ui <- fluidPage(theme = shinytheme("spacelab"),
 
   # HTML content made with Shiny tags
-  h2("Yksi koronastatistiikka lisää..."),
+  h2("Suomen koronastatistiikkaa"),
 
   # Menu - input
 
@@ -50,7 +51,7 @@ ui <- fluidPage(theme = shinytheme("spacelab"),
     column(
       width=12,
       p(),
-      a("Datan lähde",
+      a("Data",
         href = "https://github.com/eparker12/nCoV_tracker/blob/master/input_data/jhu_data.csv"),
       p(),
       a("Katso koodi GitHubista",
@@ -91,7 +92,7 @@ server <- function(input, output) {
     fin <- fin[fin$variable %in% vals, ]
     # ggplot
     ggplot2::ggplot(fin) +
-      ggplot2::geom_line(mapping = ggplot2::aes(x = Date, y = value, colour = variable),size=1) +
+      ggplot2::geom_line(mapping = ggplot2::aes(x = fin$Date, y = fin$value, colour = fin$variable),size=1) +
       ggplot2::labs (x = "", y = "", title = "Tilastoidut Covid-19 -tapaukset Suomessa") +
       ggplot2::scale_colour_discrete(name = "") +
       ggthemes::theme_fivethirtyeight()

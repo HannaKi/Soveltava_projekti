@@ -4,11 +4,9 @@ library(tidyverse)
 library(ggplot2)
 library(ggthemes)
 library(shinythemes)
-# library(roxygen2)
-# library(usethis)
-# library(devtools)
 
 # setwd needed for devtools::document() to work!
+# This is NOT good practice!
 setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
 
 source("readUrl.R")
@@ -52,7 +50,7 @@ ui <- fluidPage(theme = shinytheme("spacelab"),
       width=12,
       p(),
       a("Datan lähde",
-        href = "https://raw.githubusercontent.com/eparker12/nCoV_tracker/master/input_data/jhu_data.csv"),
+        href = "https://github.com/eparker12/nCoV_tracker/blob/master/input_data/jhu_data.csv"),
       p(),
       a("Katso koodi GitHubista",
         href = "https://github.com/HannaKi/Soveltava_projekti_tyo")

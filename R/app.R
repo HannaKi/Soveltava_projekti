@@ -4,10 +4,11 @@ library(tidyverse)
 library(ggplot2)
 library(ggthemes)
 library(shinythemes)
-library(roxygen2)
-library(usethis)
-library(devtools)
+# library(roxygen2)
+# library(usethis)
+# library(devtools)
 
+# setwd needed for devtools::document() to work!
 setwd("C:/Users/hanna/Opiskelut/Kevat_2020/Soveltava_projekti/soveltavatyo/R")
 
 source("readUrl.R")

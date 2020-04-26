@@ -4,6 +4,7 @@
 #' @param url desired url to raw format data
 #'
 #' @return csv table as a dataframe
+#' @export
 readUrl <- function(url) {
 
   readr::read_csv(url(url))

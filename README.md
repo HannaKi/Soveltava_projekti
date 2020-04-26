@@ -1,4 +1,4 @@
-# Soveltava projekti: Yksi koronastatistiikka lisää...
+# Soveltava projekti: Suomen koronastatistiikkaa
 
 [![Build Status](https://travis-ci.org/HannaKi/Soveltava_projekti_tyo.svg?branch=master)](https://travis-ci.org/HannaKi/Soveltava_projekti_tyo)
 

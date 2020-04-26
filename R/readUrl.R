@@ -4,7 +4,7 @@
 #' @param url desired url to raw format data
 #'
 #' @return csv table as a dataframe
-#' @export
+#' @export # add function to package NAMESPACE
 readUrl <- function(url) {
   out <- tryCatch(
     {

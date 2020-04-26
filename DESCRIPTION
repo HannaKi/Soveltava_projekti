@@ -1,5 +1,5 @@
 Package: soveltavatyo
-Title: What the Package Does (One Line, Title Case)
+Title: Package contains code for simple Shiny app
 Version: 0.0.0.9999
 Authors@R: 
     person(given = "Hanna",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "hanna.kitti@outlook.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Contains code
 License: MIT + file LICENSE
 Imports:
     shiny,

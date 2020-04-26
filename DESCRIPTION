@@ -8,15 +8,16 @@ Authors@R:
            email = "hanna.kitti@outlook.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: MIT + file LICENSE
 Imports:
     shiny,
     stringr,
     tidyverse,
     ggplot2,
     ggthemes,
-    shinythemes
+    shinythemes,
+    readr,
+    reshape2
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

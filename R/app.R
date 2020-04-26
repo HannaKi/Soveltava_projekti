@@ -4,6 +4,7 @@ library(tidyverse)
 library(ggplot2)
 library(ggthemes)
 library(shinythemes)
+library(reshape2)
 
 # setwd needed for devtools::document() to work!
 # This is NOT good practice!
@@ -82,18 +83,18 @@ server <- function(input, output) {
 
   # Build output
 
-  output$plot = renderPlot({
+  output$plot <-  shiny::renderPlot({
     # set ggplot theme. ggplot does NOT follow shiny theme set at UI!
     #theme_set(theme_minimal())
     # list of input values has to be vector
     vals <- unlist(input$metrics, use.names=FALSE)
     fin <- fin[fin$variable %in% vals, ]
     # ggplot
-    ggplot(fin) +
-      geom_line(mapping = aes(x = Date, y = value, colour = variable),size=1) +
-      labs (x = "", y = "", title = "Tilastoidut Covid-19 -tapaukset Suomessa") +
-      scale_colour_discrete(name = "") +
-      theme_fivethirtyeight()
+    ggplot2::ggplot(fin) +
+      ggplot2::geom_line(mapping = ggplot2::aes(x = Date, y = value, colour = variable),size=1) +
+      ggplot2::labs (x = "", y = "", title = "Tilastoidut Covid-19 -tapaukset Suomessa") +
+      ggplot2::scale_colour_discrete(name = "") +
+      ggthemes::theme_fivethirtyeight()
   })
 }
 

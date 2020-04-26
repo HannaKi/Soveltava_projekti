@@ -1,10 +1,10 @@
-
+library(readr)
 #' Function with try-cath to read a raw csv table from url
 #'
 #' @param url desired url to raw format data
 #'
 #' @return csv table as a dataframe
-#' @export # add function to package NAMESPACE
+#' @export
 readUrl <- function(url) {
 
   readr::read_csv(url(url))
